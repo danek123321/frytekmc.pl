@@ -1,0 +1,173 @@
+
+
+/* Styl przycisków */
+button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+/* Styl przycisku "Dodaj do koszyka" */
+.add-to-cart-btn {
+  background: linear-gradient(to bottom, #FFFFFF, #000000);
+  color: white;
+}
+
+/* Styl przycisku "Zapłać" */
+.pay-btn {
+  background: linear-gradient(to bottom, #FF0000, #0000FF);
+  color: white;
+}
+
+/* Animacja przycisków */
+button:hover {
+  transform: scale(1.1);
+  transition: transform 0.3s ease;
+}
+
+/* Ikony */
+i {
+  margin-right: 5px;
+}
+
+/* Reszta stylów CSS */
+
+/* Dodajemy gradient od góry do dołu w kolorach czerwonym i niebieskim dla tła przycisku */
+/* Dodajemy biało-czarny gradient na przyciski */
+
+/* Reszta stylów CSS */
+
+
+/* Reszta stylów CSS */
+
+
+/* Dodajemy gradient od góry do dołu w kolorach czerwonym i niebieskim jako tło strony */
+body {
+  background-color: #5DF0EE;
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
+
+/* Reszta stylów CSS */
+
+
+/* Stylowanie nagłówka */
+header {
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  padding: 20px 1000px;
+}
+
+/* Stylowanie kontenera produktów */
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  padding: 20px;
+}
+
+/* Stylowanie produktu */
+.product {
+  width: 200px;
+  margin: 20px;
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: center;
+}
+
+/* Stylowanie obrazka produktu */
+.product img {
+  width: 100%;
+  height: auto;
+}
+
+/* Stylowanie przycisku "Dodaj do koszyka" */
+.product button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+/* Stylowanie stopki */
+footer {
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  padding: 10px 1000px;
+}
+.product {
+  /* Pozostała część stylu .product */
+  transition: transform 0.3s ease, border-color 0.3s ease;
+  transform-origin: center center;
+}
+
+.product:hover {
+  transform: scale(1.20) translateZ(0);
+   /* Lub inny kolor po najechaniu */
+}
+
+.cart button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(to right, #000000, #6b00b3);
+    color: #fff;
+    padding: 10px 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.brand {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.menu {
+    display: flex;
+    align-items: center;
+}
+
+.menuItem {
+    text-decoration: none;
+    color: #fff;
+    margin: 0 15px;
+    transition: color 0.3s ease-in-out;
+}
+
+.menuItem:hover {
+    color: #e5a5ff;
+}
+
+.ctaButton {
+    background-color: #e5a5ff;
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 50px;
+    cursor: pointer;
+    outline: none;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.ctaButton:hover {
+    background-color: #6b00b3;
+}

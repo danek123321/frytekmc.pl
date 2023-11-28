@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>POBIERANIE</title>
+  <link href="csss.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+  <div class="container">
+    <a href="2.txt" class="button dark" download="2.txt" id="downloadLink">
+      <ul>
+        <li>Download</li>
+		
+        <li>Downloading...</li>
+	
+        <li onclick="openFileAndConfirm()">Open File</li>
+      </ul>
+      <div>
+        <svg viewBox="0 0 24 24"></svg>
+      </div>
+    </a>
+  </div>
+  <script src="elo.js"></script>
+  <script>
+    // Funkcja, która będzie wywoływana po upływie określonego czasu
+    function delayedDownload() {
+      // Symulowanie kliknięcia na linku, co spowoduje pobranie pliku
+      document.getElementById('downloadLink').click();
+    }
+
+    // Opóźnienie pobierania po upływie określonego czasu (np. 5000 ms = 5 sekund)
+    var downloadDelay = 5000;
+    setTimeout(delayedDownload, downloadDelay);
+
+    // Funkcja, która otworzy plik z chmury i wyświetli komunikat z prośbą o potwierdzenie zamknięcia strony
+    function openFileAndConfirm() {
+      var fileUrl = 'https://drive.google.com/file/d/1U811UWXdo7NDn9nwnW4-3AETJGCrfQox/view?usp=sharing';
+      window.open(fileUrl, '_blank');
+
+      // Wyświetlenie komunikatu z prośbą o potwierdzenie zamknięcia strony
+      var confirmation = confirm("Czy na pewno chcesz zamknąć stronę?");
+      if (confirmation) {
+        window.close();
+      }
+    }
+  </script>
+</body>
+</html>

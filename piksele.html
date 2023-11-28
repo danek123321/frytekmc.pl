@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Piksele</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+    }
+    table {
+      border-collapse: collapse;
+    }
+    td {
+      width: 10px;
+      height: 10px;
+      border: 1px solid #ccc;
+    }
+  </style>
+</head>
+<body>
+  <table>
+    <tbody>
+      <!-- Generowanie 100 pikseli w formie tabeli 10x10 -->
+      <?php
+        $pixels = 10;
+        for ($i = 0; $i < $pixels; $i++) {
+          echo "<tr>";
+          for ($j = 0; $j < $pixels; $j++) {
+            echo "<td></td>";
+          }
+          echo "</tr>";
+        }
+      ?>
+    </tbody>
+  </table>
+</body>
+</html>

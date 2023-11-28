@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link href="ip.css" rel="stylesheet" type="text/css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ip</title>
+</head>
+
+<body>
+
+    <button id="przytrzymajButton">przytrzymaj</button>
+
+    <script>
+        var timeoutId;
+
+        // Funkcja, która będzie wywoływana po przytrzymaniu przycisku
+        function poPrzytrzymaniu() {
+            alert("Przycisk został przytrzymany!");
+        }
+
+        document.getElementById('przytrzymajButton').addEventListener('mousedown', function () {
+            // Tekst do skopiowania ze strony
+            var tekstDoSkopiowania = document.documentElement.innerHTML;
+
+            // Ustawiamy timeout na 1 sekundę (lub inny dowolny czas, który uznasz za odpowiedni)
+            timeoutId = setTimeout(function () {
+                poPrzytrzymaniu();
+                skopiujDoSchowka(tekstDoSkopiowania);
+            }, 1000);
+        });
+
+        // Dodajemy nasłuchiwanie na zdarzenie "mouseup" (zwolnienie przycisku) dla przycisku
+        document.getElementById('przytrzymajButton').addEventListener('mouseup', function () {
+            // Czyścimy timeout, gdy przycisk zostanie zwolniony przed upływem 1 sekundy
+            clearTimeout(timeoutId);
+        });
+
+        // Dodajemy nasłuchiwanie na zdarzenie "mouseleave" (porzucenie obszaru przycisku) dla przycisku
+        document.getElementById('przytrzymajButton').addEventListener('mouseleave', function () {
+            // Czyścimy timeout, gdy kursor opuszcza obszar przycisku
+            clearTimeout(timeoutId);
+        });
+
+        function skopiujDoSchowka(tekst) {
+            var textarea = document.createElement('textarea');
+            textarea.value = tekst;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+            alert('Tekst został skopiowany do schowka!');
+        }
+    </script>
+
+</body>
+
+</html>

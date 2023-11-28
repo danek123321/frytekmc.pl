@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forum Czat</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #ecf0f1;
+        }
+
+        #container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+
+        #header {
+            background-color: #3498db;
+            color: #fff;
+            text-align: center;
+            padding: 10px;
+            width: 100%;
+        }
+
+        #chat-box {
+            flex: 1;
+            background-color: #fff;
+            padding: 20px;
+            margin-right: 20px;
+            border-radius: 5px;
+        }
+
+        #user-list,
+        #friends-section {
+            flex-basis: 250px;
+            background-color: #ecf0f1;
+            padding: 20px;
+            border-radius: 5px;
+        }
+
+        #user-list h2,
+        #friends-section h2 {
+            text-align: center;
+        }
+
+        #send-message-form {
+            flex: 1;
+            margin-top: 20px;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+        }
+
+        #friends-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        #add-friend-form,
+        #add-post-form {
+            margin-top: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+            border-radius: 5px;
+        }
+
+        button {
+            padding: 8px;
+            background-color: #3498db;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        .friend-item,
+        .friend-item:hover {
+            margin-bottom: 10px;
+            cursor: pointer;
+            background-color: #f0f0f0;
+        }
+
+        #profile-section img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        #posts-section {
+            flex: 1;
+            margin-top: 20px;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+        }
+
+        #posts-tab {
+            padding: 10px;
+            background-color: #3498db;
+            color: #fff;
+            cursor: pointer;
+            border-radius: 5px 5px 0 0;
+        }
+
+        .post,
+        .comment {
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+
+        .post img {
+            width: 80px;
+            height: 80px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
+        .post-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+
+        .like-button,
+        #add-post-button {
+            padding: 8px;
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .like-button:hover,
+        #add-post-button:hover {
+            background-color: #45a049;
+        }
+
+        .comments-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        #live-chat-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 10px;
+            background-color: #3498db;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        #live-chat-button:hover {
+            background-color: #2980b9;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="container">
+        <div id="header">
+            <h1>Forum Czat</h1>
+        </div>
+        <div id="content">
+            <div id="chat-box"></div>
+            <div id="user-list">
+                <h2>Użytkownicy</h2>
+                <!-- ... (poprzednia zawartość) -->
+            </div>
+            <div id="friends-section">
+                <h2>Znajomi</h2>
+                <ul id="friends-list">
+                    <!-- Lista znajomych -->
+                </ul>
+                <div id="add-friend-form">
+                    <input type="text" id="friend-username" placeholder="Nazwa znajomego">
+                    <button id="add-friend-button" onclick="dodajZnajomego()">Dodaj Znajomego</button>
+                </div>
+            </div>
+        </div>
+        <div id="send-message-form">
+            <!-- ... (poprzedni formularz) -->
+        </div>
+        <div id="posts-section">
+            <div id="profile-section">
+                <img id="avatar-img" src="default-avatar.png" alt="Avatar">
+                <h3 id="user-name"></h3>
+            </div>
+            <div id="posts-tab">Posty</div>
+            <div id="add-post-form">
+                <textarea id="post-content" placeholder="Treść posta..."></textarea>
+                <input type="file" id="image-input" accept="image/*">
+                <button id="add-post-button" onclick="dodajPost()">Dodaj Post</button>
+            </div>
+            <ul id="posts-list">
+                <!-- Lista postów -->
+            </ul>
+        </div>
+    </div>
+
+    <button href="forum.html" id="live-chat-button">Chat Live</button>
+
+    <script>
+        var currentUserName = "";
+        var currentUserAvatar = "default-avatar.png";
+        var currentImage = null;
+
+        var users = []; // Lista wszystkich użytkowników
+        var friends = []; // Lista znajomych
+
+        function zarejestrujUzytkownika() {
+            currentUserName = prompt("Podaj swoją nazwę użytkownika:");
+
+            if (currentUserName === null || currentUserName.trim() === "") {
+                alert("Podaj prawidłową nazwę użytkownika.");
+                zarejestrujUzytkownika();
+            } else {
+                aktualizujProfil();
+            }
+        }
+
+        function aktualizujProfil() {
+            var profileSection = document.getElementById('profile-section');
+            var currentUserAvatarElement = profileSection.querySelector('img');
+            var currentUserNameElement = profileSection.querySelector('h3');
+
+            currentUserAvatarElement.src = currentUserAvatar;
+            currentUserNameElement.textContent = currentUserName;
+        }
+
+        function dodajPost() {
+            var postContent = document.getElementById('post-content').value.trim();
+
+            if (postContent !== "") {
+                var newPost = {
+                    content: postContent,
+                    image: currentImage,
+                    likes: 0,
+                    comments: []
+                };
+
+                posts.push(newPost);
+                aktualizujListePostow();
+
+                document.getElementById('post-content').value = "";
+                document.getElementById('image-input').value = "";
+                currentImage = null;
+            }
+        }
+
+        function dodajLike(index) {
+            if (posts[index].likes < 1) {
+                posts[index].likes++;
+                aktualizujListePostow();
+            } else {
+                alert("Możesz polubić post tylko raz.");
+            }
+        }
+
+        function dodajKomentarz(index, commentContent) {
+            posts[index].comments.push({ user: currentUserName, content: commentContent });
+            aktualizujListePostow();
+        }
+
+        function aktualizujListePostow() {
+            var postsList = document.getElementById('posts-list');
+            postsList.innerHTML = "";
+
+            posts.forEach(function (post, index) {
+                var newPost = document.createElement('li');
+                newPost.className = 'post';
+                newPost.textContent = post.content;
+
+                if (post.image) {
+                    var image = document.createElement('img');
+                    image.src = zmniejszZdjecie(post.image);
+                    image.alt = 'Post Image';
+                    image.style.width = '80px';
+                    image.style.height = '80px';
+                    newPost.appendChild(image);
+                }
+
+                var postActions = document.createElement('div');
+                postActions.className = 'post-actions';
+
+                var likeButton = document.createElement('button');
+                likeButton.className = 'like-button';
+                likeButton.textContent = 'Lubię to (' + post.likes + ')';
+                likeButton.onclick = function () {
+                    dodajLike(index);
+                };
+
+                var commentInput = document.createElement('input');
+                commentInput.type = 'text';
+                commentInput.placeholder = 'Dodaj komentarz...';
+
+                var commentButton = document.createElement('button');
+                commentButton.textContent = 'Dodaj Komentarz';
+                commentButton.onclick = function () {
+                    var commentContent = commentInput.value.trim();
+                    if (commentContent !== "") {
+                        dodajKomentarz(index, commentContent);
+                        commentInput.value = "";
+                    }
+                };
+
+                var commentsList = document.createElement('ul');
+                commentsList.className = 'comments-list';
+
+                post.comments.forEach(function (comment) {
+                    var newComment = document.createElement('li');
+                    newComment.className = 'comment';
+                    newComment.textContent = comment.user + ": " + comment.content;
+                    commentsList.appendChild(newComment);
+                });
+
+                postActions.appendChild(likeButton);
+                postActions.appendChild(commentInput);
+                postActions.appendChild(commentButton);
+
+                newPost.appendChild(postActions);
+                newPost.appendChild(commentsList);
+
+                postsList.appendChild(newPost);
+            });
+        }
+
+        function zmniejszZdjecie(image) {
+            var canvas = document.createElement('canvas');
+            var ctx = canvas.getContext('2d');
+            canvas.width = 80;
+            canvas.height = 80;
+
+            var img = new Image();
+            img.src = image;
+
+            ctx.drawImage(img, 0, 0, 80, 80);
+            return canvas.toDataURL('image/png');
+        }
+
+        document.getElementById('image-input').addEventListener('change', function (event) {
+            var file = event.target.files[0];
+
+            if (file) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    currentImage =                    currentImage = e.target.result;
+                };
+
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Funkcja dodająca znajomego do listy
+        function dodajZnajomego() {
+            var friendUsername = document.getElementById('friend-username').value.trim();
+
+            if (friendUsername !== "") {
+                // Sprawdź, czy użytkownik istnieje wśród wszystkich użytkowników
+                var userExists = users.some(function (user) {
+                    return user.name === friendUsername;
+                });
+
+                if (userExists) {
+                    // Sprawdź, czy znajomy już nie istnieje
+                    var isAlreadyFriend = friends.some(function (friend) {
+                        return friend.name === friendUsername;
+                    });
+
+                    if (!isAlreadyFriend) {
+                        // Dodaj znajomego do listy
+                        friends.push({ name: friendUsername });
+                        aktualizujListeZnajomych();
+                        document.getElementById('friend-username').value = "";
+                    } else {
+                        alert("Ten użytkownik już jest Twoim znajomym.");
+                    }
+                } else {
+                    alert("Użytkownik o podanej nazwie nie istnieje.");
+                }
+            }
+        }
+
+        // Funkcja aktualizująca listę znajomych
+        function aktualizujListeZnajomych() {
+            var friendsList = document.getElementById('friends-list');
+            friendsList.innerHTML = "";
+
+            friends.forEach(function (friend) {
+                var newFriend = document.createElement('li');
+                newFriend.className = 'friend-item';
+                newFriend.textContent = friend.name;
+                newFriend.onclick = function () {
+                    // Możesz dodać tutaj obsługę kliknięcia na znajomego
+                    // Na przykład otworzyć czat z tym znajomym
+                };
+
+                friendsList.appendChild(newFriend);
+            });
+        }
+
+        // Wywołaj funkcję, aby zarejestrować użytkownika i zainicjować listę znajomych
+        zarejestrujUzytkownika();
+		// Funkcja aktualizująca listę postów
+function aktualizujListePostow() {
+    var postsList = document.getElementById('posts-list');
+    postsList.innerHTML = "";
+
+    posts.forEach(function (post, index) {
+        var newPost = document.createElement('div');
+        newPost.className = 'post';
+
+        // Nagłówek postu zawierający nazwę użytkownika i treść postu
+        var postHeader = document.createElement('div');
+        postHeader.className = 'post-header';
+
+        var userName = document.createElement('h4');
+        userName.textContent = currentUserName;
+
+        var postContent = document.createElement('p');
+        postContent.textContent = post.content;
+
+        postHeader.appendChild(userName);
+        postHeader.appendChild(postContent);
+
+        // Obrazek postu (jeśli istnieje)
+        if (post.image) {
+            var postImage = document.createElement('img');
+            postImage.src = zmniejszZdjecie(post.image);
+            postImage.alt = 'Post Image';
+            newPost.appendChild(postImage);
+        }
+
+        newPost.appendChild(postHeader);
+
+        // Sekcja akcji postu (lajki, komentarze)
+        var postActions = document.createElement('div');
+        postActions.className = 'post-actions';
+
+        var likeButton = document.createElement('button');
+        likeButton.className = 'like-button';
+        likeButton.textContent = 'Lubię to (' + post.likes + ')';
+        likeButton.onclick = function () {
+            dodajLike(index);
+        };
+
+        var commentInput = document.createElement('input');
+        commentInput.type = 'text';
+        commentInput.placeholder = 'Dodaj komentarz...';
+
+        var commentButton = document.createElement('button');
+        commentButton.textContent = 'Dodaj Komentarz';
+        commentButton.onclick = function () {
+            var commentContent = commentInput.value.trim();
+            if (commentContent !== "") {
+                dodajKomentarz(index, commentContent);
+                commentInput.value = "";
+            }
+        };
+
+        // Lista komentarzy
+        var commentsList = document.createElement('ul');
+        commentsList.className = 'comments-list';
+
+        post.comments.forEach(function (comment) {
+            var newComment = document.createElement('li');
+            newComment.className = 'comment';
+            newComment.textContent = comment.user + ": " + comment.content;
+            commentsList.appendChild(newComment);
+        });
+
+        postActions.appendChild(likeButton);
+        postActions.appendChild(commentInput);
+        postActions.appendChild(commentButton);
+
+        newPost.appendChild(postActions);
+        newPost.appendChild(commentsList);
+
+        postsList.appendChild(newPost);
+    });
+}
+// ... (poprzedni kod)
+
+var posts = []; // Lista postów
+
+// ... (poprzedni kod)
+
+// Funkcja dodająca post do listy postów
+function dodajPost() {
+    var postContent = document.getElementById('post-content').value.trim();
+
+    if (postContent !== "") {
+        var newPost = {
+            content: postContent,
+            image: currentImage,
+            likes: 0,
+            comments: []
+        };
+
+        posts.push(newPost);
+        aktualizujListePostow();
+
+        document.getElementById('post-content').value = "";
+        document.getElementById('image-input').value = "";
+        currentImage = null;
+    }
+}
+
+// Funkcja dodająca like do posta o danym indeksie
+function dodajLike(index) {
+    if (posts[index].likes < 1) {
+        posts[index].likes++;
+        aktualizujListePostow();
+    } else {
+        alert("Możesz polubić post tylko raz.");
+    }
+}
+
+// Funkcja dodająca komentarz do posta o danym indeksie
+function dodajKomentarz(index, commentContent) {
+    posts[index].comments.push({ user: currentUserName, content: commentContent });
+    aktualizujListePostow();
+}
+
+// Funkcja aktualizująca listę postów
+function aktualizujListePostow() {
+    var postsList = document.getElementById('posts-list');
+    postsList.innerHTML = "";
+
+    posts.forEach(function (post, index) {
+        var newPost = document.createElement('li');
+        newPost.className = 'post';
+        newPost.textContent = post.content;
+
+        if (post.image) {
+            var image = document.createElement('img');
+            image.src = zmniejszZdjecie(post.image);
+            image.alt = 'Post Image';
+            image.style.width = '80px';
+            image.style.height = '80px';
+            newPost.appendChild(image);
+        }
+
+        var postActions = document.createElement('div');
+        postActions.className = 'post-actions';
+
+        var likeButton = document.createElement('button');
+        likeButton.className = 'like-button';
+        likeButton.textContent = 'Lubię to (' + post.likes + ')';
+        likeButton.onclick = function () {
+            dodajLike(index);
+        };
+
+        var commentInput = document.createElement('input');
+        commentInput.type = 'text';
+        commentInput.placeholder = 'Dodaj komentarz...';
+
+        var commentButton = document.createElement('button');
+        commentButton.textContent = 'Dodaj Komentarz';
+        commentButton.onclick = function () {
+            var commentContent = commentInput.value.trim();
+            if (commentContent !== "") {
+                dodajKomentarz(index, commentContent);
+                commentInput.value = "";
+            }
+        };
+
+        var commentsList = document.createElement('ul');
+        commentsList.className = 'comments-list';
+
+        post.comments.forEach(function (comment) {
+            var newComment = document.createElement('li');
+            newComment.className = 'comment';
+            newComment.textContent = comment.user + ": " + comment.content;
+            commentsList.appendChild(newComment);
+        });
+
+        postActions.appendChild(likeButton);
+        postActions.appendChild(commentInput);
+        postActions.appendChild(commentButton);
+
+        newPost.appendChild(postActions);
+        newPost.appendChild(commentsList);
+
+        postsList.appendChild(newPost);
+    });
+}
+
+// ... (kod dokończony)
+
+// Wywołaj funkcję, aby zarejestrować użytkownika i zainicjować listy znajomych oraz postów
+zarejestrujUzytkownika();
+
+    </script>
+
+</body>
+
+</html>
+

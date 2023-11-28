@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <link href="skelp.css" rel="stylesheet" type="text/css">
+   <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=2.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+ body {
+      background-image: url('2023-08-17_04.09.05.png');
+      background-size: cover;
+      background-repeat: no-repeat;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+
+	      .cart {
+      position: fixed;
+      bottom: 0;
+      left: 20px;
+      padding: 20px;
+      border: 2px solid black;
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+      width: 300px;
+      z-index: 1000;
+    }
+
+    .pay-btn {
+      margin-top: 10px;
+      width: 100%;
+      background-color: red;
+      border: none;
+      padding: 10px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>  
+
+  <header> 
+         <div class="brand">FRYTEKMC.PL</div>
+        <div class="menu">
+            <a href="#home" class="menuItem">home</a>
+            <a href="#profile" class="menuItem">profil</a>
+			<a href="forum.html" class="menuItem">forum</a>
+            <a href="new2137.html" class="menuItem">panel</a>
+            <a href="ip.html" class="menuItem">IP</a>
+            <a href="https://discord.gg/VW7WUV8g" class="menuItem"><i class="fab fa-discord"></i> Discord</a>
+            <button class="ctaButton">kontakt</button>
+			</header>
+  
+  <div class="container">
+    <div class="product" data-product="vip" data-price="10.99">
+      <img src="XDDD.png" alt="Product 1">
+	  
+      <h2>vip</h2>
+   
+	 
+	  <p>dodaje range mvip<p/>   
+	  <p>Cena: 10.99 PLN</p>
+      <button onclick="addToCart(this)">Dodaj do koszyka</button>
+    </div>
+    <div class="product" data-product="mvip" data-price="29.99">
+      <img src="XDDD.png" alt="mvip">
+      <h2>mvip</h2>
+	  <p>	<p/>
+
+	  <p>dodaje range mvip<p/>
+      <p>Cena: 29.99 PLN</p>
+	  <p>	<p/>
+	  
+      <button onclick="addToCart(this)">Dodaj do koszyka</button>
+    </div>
+    <div class="product" data-product="KLUCZE 32 CREEPER" data-price="19.99">
+      <img src="klucze.png" alt="Product 3">
+      <h2>KLUCZE</h2>
+	  <p>32x creeper<p/>
+      <p>Cena: 19.99 PLN</p>
+	
+      <button onclick="addToCart(this)">Dodaj do koszyka</button>
+    </div>
+	  <div class="product" data-product="KLUCZE 32 anarchicza" data-price="15.99">
+      <img src="klucze.png" alt="Product 3">
+      <h2>KLUCZE</h2>
+	  <p>32x enerchiczna <p/>
+      <p>Cena: 15.99 PLN</p>
+	  
+      <button onclick="addToCart(this)">Dodaj do koszyka</button>
+	  </div>
+	    <div class="product" data-product="randomowy klucz" data-price="5.99">
+      <img src="klucze.png" alt="Product 3">
+      <h2>KLUCZE</h2>
+	  <p>randomowe<p/>
+      <p>Cena: 5.99 PLN</p>
+	  <p><p/>
+      <button onclick="addToCart(this)">Dodaj do koszyka</button>
+	  
+    </div>
+	  <div class="product" data-product="KLUCZE 64 epickich" data-price="10.20">
+      <img src="klucze.png" alt="Product 3">
+      <h2>KLUCZE</h2>
+	  <p>64x epickiej<p/>
+      <p>Cena: 10.20 PLN</p>
+      <button onclick="addToCart(this)">Dodaj do koszyka</button>
+    </div>
+  </div> 
+  </div>
+  <div class="cart">
+   <h2>Koszyk</h2>
+    <ul id="cartItems">
+    </ul>
+    <p id="totalPrice"></p>
+    <button class="pay-btn" onclick="pay()">Zapłać</button>
+  </div>
+<title data="totalPrice"> XDDD </title>
+  
+  <footer>
+    <p>bank ip</p>
+    <p>-----------------------</p>
+  </footer>
+  <script src="koszyk.js"></script>
+  <script id="Cookiebot" src="https://consent.cookiebot.com/uc.js" data-cbid="405f17cd-ab98-4aa9-9dc2-99f465fff0aa" data-blockingmode="auto" type="text/javascript"></script>
+</body>
+</html>

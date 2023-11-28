@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>POBIERANIE</title>
+  <link href="csss.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+  <div class="container">
+    <button class="button dark" onclick="downloadAndOpenFile()">Open File</button>
+  </div>
+  <script>
+    function downloadAndOpenFile() {
+      // Wywołanie skryptu Pythona za pomocą technologii AJAX
+      var xhr = new XMLHttpRequest();
+      xhr.open("GET", "/download_and_open", true);
+      xhr.send();
+    }
+  </script>
+</body>
+</html>

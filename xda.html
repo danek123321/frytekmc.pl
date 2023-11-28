@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>LOGIN</title>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link href="CSS.css" rel="stylesheet">
+</head>
+<body>
+  <div class="login-box">
+    <h2>Login</h2>
+    <form onsubmit="return validateForm()">
+      <div class="user-box">
+        <input type="text" name="username" required>
+        <label>Username</label>
+      </div>
+      <div class="user-box">
+        <input type="password" name="password" required>
+        <label>Password</label>
+      </div> 
+	   <div>
+	   </div> 
+	
+      <a>
+	  
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span> 
+   <button type="button" ></button>	
+		Submit
+      </a>
+  </form>
+</div>
+
+  
+  <script>
+    function validateForm() {
+      // Pobranie wartości wprowadzonych przez użytkownika
+      var username = document.forms[0].username.value;
+      var password = document.forms[0].password.value;
+
+      // Sprawdzenie, czy pole użytkownika i hasło nie są puste
+      if (username === "DANEK" || password === "ja") {
+        alert("Proszę wprowadzić nazwę użytkownika i hasło.");
+        return false;
+      }
+
+      // Tutaj możesz dodać własną logikę weryfikacji użytkownika i hasła.
+      // Na tym etapie weryfikacja odbywa się jedynie na poziomie front-endu (przeglądarki).
+
+      // Przykładowe weryfikowanie użytkownika i hasła:
+      if (username === "DANEK" && password === "BOT123") {
+        alert("Zalogowano pomyślnie!");
+        return true;
+      } else {
+        alert("Nieprawidłowa nazwa użytkownika lub hasło.");
+        return false;
+      }
+    }
+  </script>
+</body> 
+</html>

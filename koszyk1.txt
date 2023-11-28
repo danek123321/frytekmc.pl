@@ -1,0 +1,46 @@
+// Plik: koszyk.js
+
+// Definiowanie globalnej zmiennej do przechowywania koszyka
+let cart = [];
+
+// Funkcja dodawania produktu do koszyka
+function addToCart(button) {
+  const product = button.parentNode;
+  const productName = product.getAttribute('data-product');
+  const productPrice = parseFloat(product.getAttribute('data-price'));
+
+  cart.push({ name: productName, price: productPrice });
+
+  updateCart();
+}
+
+// Funkcja usuwania produktu z koszyka
+function removeFromCart(index) {
+  cart.splice(index, 1);
+  updateCart();
+}
+
+// Funkcja aktualizująca zawartość koszyka
+function updateCart() {
+  const cartItemsList = document.getElementById('cartItems');
+  const totalPriceElement = document.getElementById('totalPrice');
+  const purchaseList = document.getElementById('purchaseList');
+
+  let totalPrice = 0;
+
+  cartItemsList.innerHTML = '';
+  purchaseList.innerHTML = '';
+
+  cart.forEach((item, index) => {
+    totalPrice += item.price;
+    cartItemsList.innerHTML += `<li>${item.name} - ${item.price.toFixed(2)} PLN <button onclick="removeFromCart(${index})">Usuń</button></li>`;
+    purchaseList.innerHTML += `<li>${item.name}</li>`;
+  });
+
+  totalPriceElement.textContent = `Suma: ${totalPrice.toFixed(2)} PLN`;
+}
+
+// Funkcja do płatności (tutaj trzeba jeszcze dodać właściwą implementację)
+function pay() {
+  // Tutaj umieść logikę do realizacji płatności
+}

@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forum Czat</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f2f2f2;
+        }
+
+        #container {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+
+        #header {
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+        }
+
+        #content {
+            flex-grow: 1;
+            display: flex;
+        }
+
+        #chat-box {
+            flex-grow: 1;
+            height: 100%;
+            overflow-y: scroll;
+            border: 1px solid #ccc;
+            padding: 10px;
+            background-color: #fff;
+        }
+
+        #user-list {
+            flex-basis: 30%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            background-color: #fff;
+            box-sizing: border-box;
+        }
+
+        #online-users {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        #online-users li {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            padding: 10px;
+            background-color: #e6e6e6;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .user-avatar {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: #3498db;
+            margin-right: 10px;
+        }
+
+        #registration-form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+        #registration-form input {
+            margin-bottom: 10px;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+
+        #send-message-form {
+            display: flex;
+            align-items: center;
+            margin-top: 10px;
+            flex-direction: column; /* Zmieniono na kolumnę */
+        }
+
+        #message-input {
+            width: 100%; /* Pełna szerokość kontenera */
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+
+        #send-button {
+            padding: 8px;
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+
+        #send-button:hover {
+            background-color: #45a049;
+        }
+
+        #profile-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 10px;
+            border: 1px solid #ccc;
+            background-color: #fff;
+            margin-bottom: 10px;
+        }
+
+        #profile-section img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin-bottom: 10px;
+        }
+
+        #profile-section h3 {
+            margin: 0;
+        }
+
+        #typing-info {
+            color: #555;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+
+<body>
+<header>
+ <a href="posty.html" class="menuItem">posty</a>
+ </header>
+    <div id="container">
+        <div id="header">
+            <h1>Forum Czat</h1>
+        </div>
+        <div id="content">
+            <div id="chat-box"></div>
+            <div id="user-list">
+                <div id="profile-section">
+                    <img src="avatar.png" alt="Avatar użytkownika">
+                    <h3 id="current-user-name">Użytkownik</h3>
+                </div>
+                <h3>Osoby Online</h3>
+                <ul id="online-users">
+                    <!-- Lista użytkowników online -->
+                </ul>
+                <div id="registration-form">
+                    <h3>Rejestracja Nicku</h3>
+                    <input type="text" id="nick-input" placeholder="Twój nick">
+                    <button onclick="zarejestrujNick()">Zarejestruj</button>
+                </div>
+            </div>
+        </div>
+        <div id="send-message-form">
+            <input type="text" id="message-input" placeholder="Napisz wiadomość..." oninput="uzytkownikPisze()">
+            <button id="send-button" onclick="wyslijWiadomosc()">Wyślij</button>
+            <div id="typing-info"></div>
+        </div>
+    </div>
+
+    <script>
+        var onlineUsers = {};
+        var isAccountRegistered = false;
+        var currentUserName = "";
+        var typingTimeout;
+
+        function zarejestrujNick() {
+            if (isAccountRegistered) {
+                alert("Możesz zarejestrować tylko jedno konto.");
+                return;
+            }
+
+            var nickInput = document.getElementById('nick-input');
+            var nick = nickInput.value.trim();
+
+            if (nick !== "") {
+                // Dodaj nick do listy online
+                onlineUsers[nick] = true;
+                aktualizujListeUzytkownikow();
+                isAccountRegistered = true;
+                currentUserName = nick;
+
+                // Uaktualnij sekcję profilową
+                aktualizujProfil();
+
+                // Wyczyszczenie pola nicku
+                nickInput.value = "";
+            }
+        }
+
+        function wyslijWiadomosc() {
+            var messageInput = document.getElementById('message-input');
+            var message = messageInput.value;
+
+            if (message.trim() !== "") {
+                var chatBox = document.getElementById('chat-box');
+                chatBox.innerHTML += '<p><span class="user-avatar"></span><strong>' + currentUserName + ':</strong> ' + message + '</p>';
+                messageInput.value = "";
+                messageInput.focus();
+                chatBox.scrollTop = chatBox.scrollHeight; // Automatyczne przewijanie do ostatniej wiadomości
+
+                // Wyczyść informację o pisaniu
+                document.getElementById('typing-info').textContent = "";
+                clearTimeout(typingTimeout);
+            }
+        }
+
+        function aktualizujListeUzytkownikow() {
+            var onlineUsersList = document.getElementById('online-users');
+            onlineUsersList.innerHTML = "";
+
+            for (var user in onlineUsers) {
+                var li = document.createElement('li');
+                li.innerHTML = '<span class="user-avatar"></span>' + user;
+                li.addEventListener('click', function () {
+                    // Zmiana użytkownika po kliknięciu na liście
+                    currentUserName = this.textContent.trim();
+                    aktualizujProfil();
+                });
+                onlineUsersList.appendChild(li);
+            }
+        }
+
+        function aktualizujProfil() {
+            var profileSection = document.getElementById('profile-section');
+            var currentUserAvatar = profileSection.querySelector('img');
+            var currentUserNameElement = profileSection.querySelector('h3');
+
+            currentUserAvatar.src = "avatar.png"; // Aktualizuj avatar użytkownika
+            currentUserNameElement.textContent = currentUserName; // Aktualizuj nazwę użytkownika
+        }
+
+        function uzytkownikPisze() {
+            var typingInfo = document.getElementById('typing-info');
+            typingInfo.textContent = currentUserName + ' pisze...';
+
+            // Ustaw timeout, aby wyczyścić informację o pisaniu po pewnym czasie bezczynności
+            clearTimeout(typingTimeout);
+            typingTimeout = setTimeout(function () {
+                typingInfo.textContent = "";
+            }, 3000); // Po 3 sekundach bezczynności
+        }
+    </script>
+
+</body>
+
+</html>
